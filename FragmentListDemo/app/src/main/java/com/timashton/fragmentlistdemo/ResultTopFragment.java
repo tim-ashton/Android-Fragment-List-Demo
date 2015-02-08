@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
+/*
  * Created by tim on 1/02/15.
  */
 public class ResultTopFragment extends Fragment {
@@ -18,7 +18,7 @@ public class ResultTopFragment extends Fragment {
     }
 
     /*
-     * Create a new instance of ResultTopFragment.
+     * Factory for creating a new instance of ResultTopFragment.
      */
     public static ResultTopFragment newInstance() {
         ResultTopFragment f = new ResultTopFragment();

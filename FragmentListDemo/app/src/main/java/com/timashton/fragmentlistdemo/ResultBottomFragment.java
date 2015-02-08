@@ -7,12 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
+import java.util.ArrayList;
+
+/*
  * Created by tim on 1/02/15.
  */
 public class ResultBottomFragment extends Fragment {
 
     private final String TAG = this.getClass().getName();
+
+    private FragmentListAdapter mFragmentListAdapter;
+    private ArrayList<ListItem> mItems;
+    View mBottomListFragment;
 
     public ResultBottomFragment(){
     }
@@ -36,8 +42,39 @@ public class ResultBottomFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView()");
-        View rootView = inflater.inflate(R.layout.fragment_result_bottom, container, false);
-        return rootView;
+        mBottomListFragment = inflater.inflate(R.layout.fragment_result_bottom_list, container, false);
+
+        ScrollDetectingListView mFragmentListView =
+                (com.timashton.fragmentlistdemo.ScrollDetectingListView) mBottomListFragment.findViewById(R.id.fragment_list);
+
+        mItems = new ArrayList<>();
+        mFragmentListAdapter = new FragmentListAdapter(getActivity(), mItems);
+        mFragmentListView.setAdapter(mFragmentListAdapter);
+
+        mFragmentListView.setOnDetectScrollListener(new ScrollDetectingListView.OnDetectScrollListener() {
+            @Override
+            public void onUpScrolling() {
+                Log.i(TAG, "onUpScrolling()");
+                mFragmentListAdapter.setScrollingUp(true);
+                mFragmentListAdapter.setScrollingDown(false);
+            }
+
+            @Override
+            public void onDownScrolling() {
+                Log.i(TAG, "onDownScrolling()");
+                mFragmentListAdapter.setScrollingUp(false);
+                mFragmentListAdapter.setScrollingDown(true);
+            }
+        });
+
+        return mBottomListFragment;
+    }
+
+    public void updateListView(String text) {
+        Log.i(TAG, "updateListView(String text)");
+        ListItem item = new ListItem(text);
+        mItems.add(item);
+        mFragmentListAdapter.notifyDataSetChanged();
     }
 
     @Override

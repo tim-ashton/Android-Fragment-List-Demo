@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AnimateFragments</string>
+    <string name="app_name">Fragment List Demo</string>
     <string name="action_settings">Settings</string>
 
     <!-- Fragment Activator -->
     <string name="fragment_activator_title">Fragment Activator Title</string>
     <string name="fragment_activator_text">Clicking the "Animate Fragment" button will
         start the fragment animation.</string>
-    <string name="fragment_activator_button">Animate Fragment</string>
+    <string name="fragment_activator_button">Run The Demo</string>
 
 
     <!-- Fragment Result Top -->
-    <string name="fragment_result_top_title">Fragment Top Title</string>
+    <string name="fragment_result_top_title">Top Fragment Title</string>
     <string name="fragment_result_top_text">This fragment has replaced the original
         fragment which contained the button.</string>
+
+
+    <!-- fragment result bottom list -->
+    <string name="fragment_result_bottom_title">Bottom Fragment</string>
+    <string name="fragment_result_bottom_text">This fragment has been added during the
+    fragment transition. It contains a custom ListView which animates items being added.</string>
 </resources>

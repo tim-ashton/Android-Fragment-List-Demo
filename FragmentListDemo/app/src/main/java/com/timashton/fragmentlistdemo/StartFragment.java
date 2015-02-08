@@ -15,7 +15,7 @@ import android.widget.Button;
  */
 public class StartFragment extends Fragment implements View.OnClickListener {
 
-    private final String TAG = this.getClass().getName().toString();
+    private final String TAG = this.getClass().getName();
 
     private Button mAnimateButton;
     private AnimateFragmentListener mAnimateFragmentCallback;
@@ -31,7 +31,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v.getId() == R.id.animate_button){
             Log.i(TAG, "Animate button clicked");
-
+            mAnimateButton.setEnabled(false);
             mAnimateFragmentCallback.animateFragments();
         }
     }
