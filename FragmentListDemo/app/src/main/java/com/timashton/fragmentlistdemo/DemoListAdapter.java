@@ -15,7 +15,7 @@ import java.util.List;
 /*
  * Created by tim on 17/01/15.
  */
-public class FragmentListAdapter extends BaseAdapter {
+public class DemoListAdapter extends BaseAdapter {
 
     private final String TAG = this.getClass().getName();
 
@@ -25,7 +25,7 @@ public class FragmentListAdapter extends BaseAdapter {
     private boolean mIsScrollingDown = false;
 
 
-    public FragmentListAdapter(Activity context, List<ListItem> list) {
+    public DemoListAdapter(Activity context, List<ListItem> list) {
         mContext = context;
         mList = list;
     }
@@ -95,6 +95,10 @@ public class FragmentListAdapter extends BaseAdapter {
 
     public void setScrollingDown(boolean scrollingDown){
         mIsScrollingDown = scrollingDown;
+    }
+
+    public List<ListItem> getList(){
+        return mList;
     }
 
 }

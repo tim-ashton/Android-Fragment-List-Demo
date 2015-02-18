@@ -1,42 +1,64 @@
 package com.timashton.fragmentlistdemo;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.util.Log;
 import android.view.WindowManager;
 
 
-public class MainActivity extends Activity implements StartFragment.AnimateFragmentListener{
+public class MainActivity extends Activity implements StartFragment.AnimateFragmentListener
+        , DemoTaskFragment.TaskCallbacks {
 
-    Handler mHandler;
+    private final static String TAG = MainActivity.class.getName();
+
+    private static final String TAG_DEMO_TASK_FRAGMENT = "demo_task_fragment";
+
     private ProgressDialog mProgressSpinner;
-
+    private DemoTaskFragment mDemoTaskFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FragmentManager fm = getFragmentManager();
+
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
+            fm.beginTransaction()
                     .add(R.id.container, new StartFragment())
                     .commit();
         }
 
-        mHandler = new Handler() {
-            public void handleMessage(Message msg) {
-                addItemToListFragment(msg.obj.toString());
-            }
-        };
+        mDemoTaskFragment = (DemoTaskFragment) fm.findFragmentByTag(TAG_DEMO_TASK_FRAGMENT);
 
+        // If the Fragment is non-null, then it is being retained
+        // over a configuration change.
+        if (mDemoTaskFragment == null) {
+            mDemoTaskFragment = new DemoTaskFragment();
+            fm.beginTransaction().add(mDemoTaskFragment, TAG_DEMO_TASK_FRAGMENT).commit();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause()");
+    }
+
+    @Override
+    public void onResume() {
+        super.onPause();
+        Log.i(TAG, "onResume()");
     }
 
 
     @Override
     public void animateFragments() {
+        Log.i(TAG, "animateFragments()");
 
         ResultBottomFragment bottomFragment = ResultBottomFragment.newInstance();
         ResultTopFragment topFragment = ResultTopFragment.newInstance();
@@ -53,60 +75,24 @@ public class MainActivity extends Activity implements StartFragment.AnimateFragm
         ft.addToBackStack(null);
         ft.commit();
 
-        runAddItemsThread();
+        mDemoTaskFragment.runAddItemsThread();
     }
 
-
-    private void runAddItemsThread(){
-        showSpinner();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    //add 25 items to the list, 1 each 1/2 second
-                    for (int i = 0; i < 25; i++) {
-                        String countText = "Item: " + i + " added to list!";
-                        Message msg = new Message();
-                        msg.obj = countText;
-                        mHandler.sendMessage(msg);
-                        Thread.sleep(500);
-                    }
-
-                    hideSpinner();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
-    private void addItemToListFragment(String text) {
-
-        ResultBottomFragment resultBottomFragment = (ResultBottomFragment) getFragmentManager()
-                .findFragmentByTag("fragment_bottom");
-
-        if (resultBottomFragment != null) {
-            resultBottomFragment.updateListView(text);
-        }
-    }
-
-
-    private void showSpinner(){
+    public void showSpinner() {
+        Log.i(TAG, "showSpinner()");
         if (mProgressSpinner == null) {
             mProgressSpinner = this.createProgressDialog(this);
             mProgressSpinner.show();
-        }
-        else {
+        } else {
             mProgressSpinner.show();
         }
     }
 
-    private void hideSpinner(){
+    public void hideSpinner() {
+        Log.i(TAG, "hideSpinner()");
         if (mProgressSpinner == null) {
             return;
-        }
-        else {
+        } else {
             mProgressSpinner.dismiss();
         }
     }
@@ -124,4 +110,26 @@ public class MainActivity extends Activity implements StartFragment.AnimateFragm
         return dialog;
     }
 
+    @Override
+    public void addItemToListFragment(String text) {
+        Log.i(TAG, "addItemToListFragment(String text): " + text);
+
+        //TODO - Move this to ..
+        ResultBottomFragment resultBottomFragment = (ResultBottomFragment) getFragmentManager()
+                .findFragmentByTag("fragment_bottom");
+
+        if (resultBottomFragment != null) {
+            resultBottomFragment.updateListView(text);
+        }
+    }
+
+    @Override
+    public void taskStarting() {
+        showSpinner();
+    }
+
+    @Override
+    public void taskStopping() {
+        hideSpinner();
+    }
 }

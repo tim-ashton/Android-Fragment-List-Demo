@@ -15,8 +15,9 @@ import java.util.ArrayList;
 public class ResultBottomFragment extends Fragment {
 
     private final String TAG = this.getClass().getName();
+    private static final String ITEMS_LIST_TAG = "list_tag";
 
-    private FragmentListAdapter mFragmentListAdapter;
+    private DemoListAdapter mDemoListAdapter;
     private ArrayList<ListItem> mItems;
     View mBottomListFragment;
 
@@ -36,50 +37,67 @@ public class ResultBottomFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView()");
-        mBottomListFragment = inflater.inflate(R.layout.fragment_result_bottom_list, container, false);
+        mBottomListFragment = inflater.inflate(R.layout.fragment_result_list, container, false);
 
-        ScrollDetectingListView mFragmentListView =
+        ScrollDetectingListView fragmentListView =
                 (com.timashton.fragmentlistdemo.ScrollDetectingListView) mBottomListFragment.findViewById(R.id.fragment_list);
 
-        mItems = new ArrayList<>();
-        mFragmentListAdapter = new FragmentListAdapter(getActivity(), mItems);
-        mFragmentListView.setAdapter(mFragmentListAdapter);
+        if (savedInstanceState != null) {
+            mItems = savedInstanceState.getParcelableArrayList(ITEMS_LIST_TAG);
+        }
+        else{
+            mItems = new ArrayList<>();
+        }
 
-        mFragmentListView.setOnDetectScrollListener(new ScrollDetectingListView.OnDetectScrollListener() {
+        mDemoListAdapter = new DemoListAdapter(getActivity(), mItems);
+        fragmentListView.setAdapter(mDemoListAdapter);
+
+        fragmentListView.setOnDetectScrollListener(new ScrollDetectingListView.OnDetectScrollListener() {
             @Override
             public void onUpScrolling() {
                 Log.i(TAG, "onUpScrolling()");
-                mFragmentListAdapter.setScrollingUp(true);
-                mFragmentListAdapter.setScrollingDown(false);
+                mDemoListAdapter.setScrollingUp(true);
+                mDemoListAdapter.setScrollingDown(false);
             }
 
             @Override
             public void onDownScrolling() {
                 Log.i(TAG, "onDownScrolling()");
-                mFragmentListAdapter.setScrollingUp(false);
-                mFragmentListAdapter.setScrollingDown(true);
+                mDemoListAdapter.setScrollingUp(false);
+                mDemoListAdapter.setScrollingDown(true);
             }
         });
 
         return mBottomListFragment;
     }
 
-    public void updateListView(String text) {
-        Log.i(TAG, "updateListView(String text)");
-        ListItem item = new ListItem(text);
-        mItems.add(item);
-        mFragmentListAdapter.notifyDataSetChanged();
-    }
-
     @Override
     public void onPause(){
         super.onPause();
         Log.i(TAG, "onPause()");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedState) {
+        super.onSaveInstanceState(savedState);
+
+        ArrayList<ListItem> bundledListItems = (ArrayList)mDemoListAdapter.getList();
+        savedState.putParcelableArrayList(ITEMS_LIST_TAG, bundledListItems);
+    }
+
+
+    public void updateListView(String text) {
+        Log.i(TAG, "updateListView(String text)");
+        ListItem item = new ListItem(text);
+        mItems.add(item);
+        mDemoListAdapter.notifyDataSetChanged();
     }
 }
