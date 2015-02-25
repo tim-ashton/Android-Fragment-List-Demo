@@ -8,7 +8,7 @@ UI Demo includes (but not limited to):
 
 - Items are added to a ListView with a worker Fragment.
 
--Worker Fragment runs a dummy thread which pauses and resumes if runtime changes occur during application state changes.
+- Worker Fragment runs a dummy thread which pauses and resumes if runtime changes occur during application state changes.
 
 - Example of fragment layout for landscape/portrait - maintains application state during runtime changes (screen rotation). List view maintains scrolled position.
 
