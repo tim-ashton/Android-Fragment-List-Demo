@@ -14,11 +14,11 @@ import java.util.ArrayList;
  */
 public class ResultBottomFragment extends Fragment {
 
-    private final String TAG = this.getClass().getName();
+    private static final String TAG = ResultBottomFragment.class.getName();
     private static final String ITEMS_LIST_TAG = "list_tag";
 
     private DemoListAdapter mDemoListAdapter;
-    private ArrayList<ListItem> mItems;
+    private ArrayList<DemoListItem> mItems;
     View mBottomListFragment;
 
     public ResultBottomFragment(){
@@ -89,14 +89,14 @@ public class ResultBottomFragment extends Fragment {
     public void onSaveInstanceState(Bundle savedState) {
         super.onSaveInstanceState(savedState);
 
-        ArrayList<ListItem> bundledListItems = (ArrayList)mDemoListAdapter.getList();
+        ArrayList<DemoListItem> bundledListItems = (ArrayList)mDemoListAdapter.getList();
         savedState.putParcelableArrayList(ITEMS_LIST_TAG, bundledListItems);
     }
 
 
     public void updateListView(String text) {
         Log.i(TAG, "updateListView(String text)");
-        ListItem item = new ListItem(text);
+        DemoListItem item = new DemoListItem(text);
         mItems.add(item);
         mDemoListAdapter.notifyDataSetChanged();
     }

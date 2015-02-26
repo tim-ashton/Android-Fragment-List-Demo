@@ -23,6 +23,10 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     public StartFragment() {
     }
 
+    /*
+     * The AnimateFragmentListener.animateFragments() callback is implemented
+     * in the MainActivity.
+     */
     public interface AnimateFragmentListener {
         public void animateFragments();
     }

@@ -14,7 +14,6 @@ public class MainActivity extends Activity implements StartFragment.AnimateFragm
         , DemoTaskFragment.TaskCallbacks {
 
     private final static String TAG = MainActivity.class.getName();
-
     private static final String TAG_DEMO_TASK_FRAGMENT = "demo_task_fragment";
 
     private ProgressDialog mProgressSpinner;

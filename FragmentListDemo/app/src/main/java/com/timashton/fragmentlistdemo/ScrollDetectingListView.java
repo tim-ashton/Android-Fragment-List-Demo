@@ -6,12 +6,12 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-/**
+/*
  * Created by tim on 5/02/15.
  */
 public class ScrollDetectingListView extends ListView {
 
-    private static final String TAG = ScrollDetectingListView.class.getName().toString();
+    private static final String TAG = ScrollDetectingListView.class.getName();
 
     private OnScrollListener mOnScrollListener;
     private OnDetectScrollListener mOnDetectScrollListener;

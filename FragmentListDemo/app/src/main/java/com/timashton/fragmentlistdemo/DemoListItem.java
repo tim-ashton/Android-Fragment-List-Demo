@@ -7,25 +7,26 @@ import android.os.Parcelable;
 /*
  * Created by tim on 4/02/15.
  */
-public class ListItem implements Parcelable {
+public class DemoListItem implements Parcelable {
 
+    private static final String TAG = DemoListItem.class.getName();
     private static final String NEW_ITEM_TAG = "new_item";
     private static final String TEXT_TAG = "item_text";
 
     private boolean mNewItem;
     private String mText;
 
-    public ListItem(String text){
+    public DemoListItem(String text){
         mNewItem = true;
         mText = text;
     }
 
-    public ListItem(boolean newItem, String text){
+    public DemoListItem(boolean newItem, String text){
         mNewItem = newItem;
         mText = text;
     }
 
-    private ListItem(Parcel in) {
+    private DemoListItem(Parcel in) {
         Bundle bundle = in.readBundle();
         mNewItem = bundle.getBoolean(NEW_ITEM_TAG);
         mText = bundle.getString(TEXT_TAG);
@@ -60,14 +61,14 @@ public class ListItem implements Parcelable {
         dest.writeBundle(bundle);
     }
 
-    public static final Parcelable.Creator<ListItem> CREATOR
-            = new Parcelable.Creator<ListItem>() {
-        public ListItem createFromParcel(Parcel in) {
-            return new ListItem(in);
+    public static final Parcelable.Creator<DemoListItem> CREATOR
+            = new Parcelable.Creator<DemoListItem>() {
+        public DemoListItem createFromParcel(Parcel in) {
+            return new DemoListItem(in);
         }
 
-        public ListItem[] newArray(int size) {
-            return new ListItem[size];
+        public DemoListItem[] newArray(int size) {
+            return new DemoListItem[size];
         }
     };
 }

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
  */
 public class ResultTopFragment extends Fragment {
 
-    private final String TAG = this.getClass().getName();
+    private static final String TAG = ResultTopFragment.class.getName();
 
     public ResultTopFragment() {
     }

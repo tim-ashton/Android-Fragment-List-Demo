@@ -17,15 +17,15 @@ import java.util.List;
  */
 public class DemoListAdapter extends BaseAdapter {
 
-    private final String TAG = this.getClass().getName();
+    private final String TAG = DemoListAdapter.class.getName();
 
     private Activity mContext;
-    private List<ListItem> mList;
+    private List<DemoListItem> mList;
     private boolean mIsScrollingUp = false;
     private boolean mIsScrollingDown = false;
 
 
-    public DemoListAdapter(Activity context, List<ListItem> list) {
+    public DemoListAdapter(Activity context, List<DemoListItem> list) {
         mContext = context;
         mList = list;
     }
@@ -48,7 +48,7 @@ public class DemoListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ListItem item = mList.get(position);
+        DemoListItem item = mList.get(position);
         ViewHolder holder;
 
         if (convertView == null) {
@@ -97,7 +97,7 @@ public class DemoListAdapter extends BaseAdapter {
         mIsScrollingDown = scrollingDown;
     }
 
-    public List<ListItem> getList(){
+    public List<DemoListItem> getList(){
         return mList;
     }
 
