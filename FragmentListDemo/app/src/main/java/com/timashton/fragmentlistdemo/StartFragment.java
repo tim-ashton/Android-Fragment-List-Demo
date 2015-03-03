@@ -15,7 +15,7 @@ import android.widget.Button;
  */
 public class StartFragment extends Fragment implements View.OnClickListener {
 
-    private final String TAG = this.getClass().getName();
+    private static final String TAG = StartFragment.class.getName();
 
     private Button mAnimateButton;
     private AnimateFragmentListener mAnimateFragmentCallback;
@@ -68,8 +68,8 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         super.onAttach(activity);
         Log.i(TAG, "onCreateView()");
 
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
+        // Throw exception if AnimateFragmentListener is not implemented
+        // where implementation is declared
         try {
             mAnimateFragmentCallback = (AnimateFragmentListener) activity;
         } catch (ClassCastException e) {

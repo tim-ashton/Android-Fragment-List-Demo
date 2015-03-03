@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -19,68 +21,79 @@ public class ResultBottomFragment extends Fragment {
 
     private DemoListAdapter mDemoListAdapter;
     private ArrayList<DemoListItem> mItems;
-    View mBottomListFragment;
+    private ListView mFragmentListView;
+    private int mOldFirstVisibleItem;
 
-    public ResultBottomFragment(){
+    public ResultBottomFragment() {
     }
 
     /*
      * Create a new instance of ResultTopFragment.
      */
     public static ResultBottomFragment newInstance() {
-        ResultBottomFragment f = new ResultBottomFragment();
-
-        return f;
+        return new ResultBottomFragment();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView()");
-        mBottomListFragment = inflater.inflate(R.layout.fragment_result_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_result_list, container, false);
 
-        ScrollDetectingListView fragmentListView =
-                (com.timashton.fragmentlistdemo.ScrollDetectingListView) mBottomListFragment.findViewById(R.id.fragment_list);
+        mFragmentListView =
+                (ListView) rootView.findViewById(R.id.fragment_list);
 
         if (savedInstanceState != null) {
             mItems = savedInstanceState.getParcelableArrayList(ITEMS_LIST_TAG);
-        }
-        else{
+        } else {
             mItems = new ArrayList<>();
         }
 
         mDemoListAdapter = new DemoListAdapter(getActivity(), mItems);
-        fragmentListView.setAdapter(mDemoListAdapter);
+        mFragmentListView.setAdapter(mDemoListAdapter);
 
-        fragmentListView.setOnDetectScrollListener(new ScrollDetectingListView.OnDetectScrollListener() {
-            @Override
-            public void onUpScrolling() {
-                Log.i(TAG, "onUpScrolling()");
-                mDemoListAdapter.setScrollingUp(true);
-                mDemoListAdapter.setScrollingDown(false);
+
+        mFragmentListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             }
 
-            @Override
-            public void onDownScrolling() {
-                Log.i(TAG, "onDownScrolling()");
-                mDemoListAdapter.setScrollingUp(false);
-                mDemoListAdapter.setScrollingDown(true);
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                final ListView lw = mFragmentListView;
+
+                if (scrollState == 0)
+                    Log.i(TAG, "scrolling stopped.");
+
+                if (view.getId() == lw.getId()) {
+                    final int currentFirstVisibleItem = lw.getFirstVisiblePosition();
+
+                    if (currentFirstVisibleItem > mOldFirstVisibleItem) {
+                        Log.i(TAG, "Scrolling down");
+                        mDemoListAdapter.setScrollingUp(false);
+                        mDemoListAdapter.setScrollingDown(true);
+                    } else if (currentFirstVisibleItem < mOldFirstVisibleItem) {
+                        Log.i(TAG, "Scrolling up.");
+                        mDemoListAdapter.setScrollingUp(true);
+                        mDemoListAdapter.setScrollingDown(false);
+                    }
+
+                    mOldFirstVisibleItem = currentFirstVisibleItem;
+                }
             }
         });
 
-        return mBottomListFragment;
+        return rootView;
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         Log.i(TAG, "onPause()");
     }
@@ -88,8 +101,7 @@ public class ResultBottomFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle savedState) {
         super.onSaveInstanceState(savedState);
-
-        ArrayList<DemoListItem> bundledListItems = (ArrayList)mDemoListAdapter.getList();
+        ArrayList<DemoListItem> bundledListItems = (ArrayList) mDemoListAdapter.getList();
         savedState.putParcelableArrayList(ITEMS_LIST_TAG, bundledListItems);
     }
 
@@ -100,4 +112,5 @@ public class ResultBottomFragment extends Fragment {
         mItems.add(item);
         mDemoListAdapter.notifyDataSetChanged();
     }
+
 }

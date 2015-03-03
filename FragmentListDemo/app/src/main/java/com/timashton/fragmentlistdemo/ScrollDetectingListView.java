@@ -31,12 +31,26 @@ public class ScrollDetectingListView extends ListView {
         setListeners();
     }
 
+    /*
+     *private void setListeners()
+     *
+     * Assign the OnScrollListener and OnDetectScrollListener to scroll events of this
+     * View.
+      */
     private void setListeners() {
         super.setOnScrollListener(new OnScrollListener() {
 
             private int oldTop;
             private int oldFirstVisibleItem;
 
+            /*
+             * Callback method to be invoked while the list view or grid view is being scrolled.
+             * If the view is being scrolled, this method will be called before the next frame
+             * of the scroll is rendered. In particular, it will be called before any calls
+             * to getView(int, View, ViewGroup).
+             *
+             * Override to call the OnScrollListener if implemented.
+             */
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (mOnScrollListener != null) {
@@ -44,6 +58,14 @@ public class ScrollDetectingListView extends ListView {
                 }
             }
 
+            /*
+             * Callback method to be invoked when the list or grid has been scrolled.
+             * This will be called after the scroll has completed
+             *
+             * Override to call the OnScrollListener if implemented.
+             *
+             * Override to call the OnDetectScrollListener if implemented.
+             */
             @Override
             public void onScroll(
                     AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -55,6 +77,9 @@ public class ScrollDetectingListView extends ListView {
                 }
             }
 
+            /*
+             *
+             */
             private void onDetectedListScroll(AbsListView absListView, int firstVisibleItem) {
                 View view = absListView.getChildAt(0);
                 int top = (view == null) ? 0 : view.getTop();
@@ -84,11 +109,11 @@ public class ScrollDetectingListView extends ListView {
 
     @Override
     public void setOnScrollListener(OnScrollListener onScrollListener) {
-        this.mOnScrollListener = onScrollListener;
+        mOnScrollListener = onScrollListener;
     }
 
     public void setOnDetectScrollListener(OnDetectScrollListener onDetectScrollListener) {
-        this.mOnDetectScrollListener = onDetectScrollListener;
+        mOnDetectScrollListener = onDetectScrollListener;
     }
 
 
