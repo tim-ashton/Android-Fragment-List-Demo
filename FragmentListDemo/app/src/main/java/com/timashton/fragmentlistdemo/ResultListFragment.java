@@ -14,9 +14,9 @@ import java.util.ArrayList;
 /*
  * Created by tim on 1/02/15.
  */
-public class ResultBottomFragment extends Fragment {
+public class ResultListFragment extends Fragment {
 
-    private static final String TAG = ResultBottomFragment.class.getName();
+    private static final String TAG = ResultListFragment.class.getName();
     private static final String ITEMS_LIST_TAG = "list_tag";
 
     private DemoListAdapter mDemoListAdapter;
@@ -24,14 +24,14 @@ public class ResultBottomFragment extends Fragment {
     private ListView mFragmentListView;
     private int mOldFirstVisibleItem;
 
-    public ResultBottomFragment() {
+    public ResultListFragment() {
     }
 
     /*
      * Create a new instance of ResultTopFragment.
      */
-    public static ResultBottomFragment newInstance() {
-        return new ResultBottomFragment();
+    public static ResultListFragment newInstance() {
+        return new ResultListFragment();
     }
 
     @Override

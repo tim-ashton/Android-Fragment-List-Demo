@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements StartFragment.AnimateFragm
     public void animateFragments() {
         Log.i(TAG, "animateFragments()");
 
-        ResultBottomFragment bottomFragment = ResultBottomFragment.newInstance();
+        ResultListFragment bottomFragment = ResultListFragment.newInstance();
         ResultTopFragment topFragment = ResultTopFragment.newInstance();
 
         FragmentTransaction ft = getFragmentManager().beginTransaction()
@@ -114,11 +114,11 @@ public class MainActivity extends Activity implements StartFragment.AnimateFragm
         Log.i(TAG, "addItemToListFragment(String text): " + text);
 
         //TODO - Move this to ..
-        ResultBottomFragment resultBottomFragment = (ResultBottomFragment) getFragmentManager()
+        ResultListFragment resultListFragment = (ResultListFragment) getFragmentManager()
                 .findFragmentByTag("fragment_bottom");
 
-        if (resultBottomFragment != null) {
-            resultBottomFragment.updateListView(text);
+        if (resultListFragment != null) {
+            resultListFragment.updateListView(text);
         }
     }
 
