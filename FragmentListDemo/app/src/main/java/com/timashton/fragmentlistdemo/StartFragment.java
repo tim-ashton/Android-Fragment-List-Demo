@@ -17,26 +17,30 @@ public class StartFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = StartFragment.class.getName();
 
-    private Button mAnimateButton;
-    private AnimateFragmentListener mAnimateFragmentCallback;
+    private Button mStartButton;
+    private StartDemoListener mStartDemoCallback;
 
     public StartFragment() {
     }
 
     /*
-     * The AnimateFragmentListener.animateFragments() callback is implemented
+     * The StartDemoListener.startDemo() callback is implemented
      * in the MainActivity.
      */
-    public interface AnimateFragmentListener {
-        public void animateFragments();
+    public interface StartDemoListener {
+        public void startDemo();
     }
 
+    /*
+     * Start animating the fragments and adding things to the list as soon
+     * as the button is clicked.
+     */
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.animate_button){
             Log.i(TAG, "Animate button clicked");
-            mAnimateButton.setEnabled(false);
-            mAnimateFragmentCallback.animateFragments();
+            mStartButton.setEnabled(false);
+            mStartDemoCallback.startDemo();
         }
     }
 
@@ -52,8 +56,8 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         Log.i(TAG, "onCreateView()");
         View rootView = inflater.inflate(R.layout.fragment_start, container, false);
 
-        mAnimateButton = (Button)rootView.findViewById(R.id.animate_button);
-        mAnimateButton.setOnClickListener(this);
+        mStartButton = (Button)rootView.findViewById(R.id.animate_button);
+        mStartButton.setOnClickListener(this);
         return rootView;
     }
 
@@ -66,15 +70,15 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        Log.i(TAG, "onCreateView()");
+        Log.i(TAG, "onAttach()");
 
-        // Throw exception if AnimateFragmentListener is not implemented
+        // Throw exception if StartDemoListener is not implemented
         // where implementation is declared
         try {
-            mAnimateFragmentCallback = (AnimateFragmentListener) activity;
+            mStartDemoCallback = (StartDemoListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement AnimateFragmentListener");
+                    + " must implement StartDemoListener");
         }
     }
 

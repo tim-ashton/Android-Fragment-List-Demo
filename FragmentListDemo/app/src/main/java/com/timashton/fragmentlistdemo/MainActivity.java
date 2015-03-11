@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.WindowManager;
 
 
-public class MainActivity extends Activity implements StartFragment.AnimateFragmentListener
+public class MainActivity extends Activity implements StartFragment.StartDemoListener
         , DemoTaskFragment.TaskCallbacks {
 
     private final static String TAG = MainActivity.class.getName();
@@ -56,11 +56,11 @@ public class MainActivity extends Activity implements StartFragment.AnimateFragm
 
 
     @Override
-    public void animateFragments() {
-        Log.i(TAG, "animateFragments()");
+    public void startDemo() {
+        Log.i(TAG, "startDemo()");
 
         ResultListFragment bottomFragment = ResultListFragment.newInstance();
-        ResultTopFragment topFragment = ResultTopFragment.newInstance();
+        ResultInfoFragment topFragment = ResultInfoFragment.newInstance();
 
         FragmentTransaction ft = getFragmentManager().beginTransaction()
                 .setCustomAnimations(

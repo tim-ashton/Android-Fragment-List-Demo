@@ -10,18 +10,18 @@ import android.view.ViewGroup;
 /*
  * Created by tim on 1/02/15.
  */
-public class ResultTopFragment extends Fragment {
+public class ResultInfoFragment extends Fragment {
 
-    private static final String TAG = ResultTopFragment.class.getName();
+    private static final String TAG = ResultInfoFragment.class.getName();
 
-    public ResultTopFragment() {
+    public ResultInfoFragment() {
     }
 
     /*
-     * Factory for creating a new instance of ResultTopFragment.
+     * Factory for creating a new instance of ResultInfoFragment.
      */
-    public static ResultTopFragment newInstance() {
-        ResultTopFragment f = new ResultTopFragment();
+    public static ResultInfoFragment newInstance() {
+        ResultInfoFragment f = new ResultInfoFragment();
 
         return f;
     }
@@ -36,7 +36,7 @@ public class ResultTopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView()");
-        View rootView = inflater.inflate(R.layout.fragment_result_top, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_result_info, container, false);
         return rootView;
     }
 

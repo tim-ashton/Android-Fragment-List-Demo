@@ -5,9 +5,10 @@
     <string name="action_settings">Settings</string>
 
     <!-- Fragment Activator -->
-    <string name="fragment_activator_title">Fragment Activator Title</string>
+    <string name="fragment_activator_title">Demo Starting Fragment</string>
     <string name="fragment_activator_text">Clicking the "Animate Fragment" button will
-        start the fragment animation.</string>
+        start fragment animation and start adding items onto a ListView using a thread
+        in a worker fragment.</string>
     <string name="fragment_activator_button">Run The Demo</string>
 
 
