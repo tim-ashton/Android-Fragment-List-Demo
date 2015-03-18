@@ -103,6 +103,7 @@ public class DemoTaskFragment extends Fragment {
 
     public void runAddItemsThread() {
         Log.i(TAG, "runAddItemsThread()");
+        mCallbacks.taskStarting();
         mThread = new DemoThread();
         mThread.start();
     }

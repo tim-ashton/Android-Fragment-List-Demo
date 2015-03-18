@@ -52,7 +52,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
      */
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.animate_button){
+        if (v.getId() == R.id.animate_button) {
             Log.i(TAG, "Animate button clicked");
             mStartButton.setEnabled(false);
             mStartDemoCallback.startDemo();
@@ -60,7 +60,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
     }
@@ -71,13 +71,13 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         Log.i(TAG, "onCreateView()");
         View rootView = inflater.inflate(R.layout.fragment_start, container, false);
 
-        mStartButton = (Button)rootView.findViewById(R.id.animate_button);
+        mStartButton = (Button) rootView.findViewById(R.id.animate_button);
         mStartButton.setOnClickListener(this);
         return rootView;
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         Log.i(TAG, "onPause()");
     }

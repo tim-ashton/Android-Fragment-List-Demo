@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
 
@@ -55,6 +54,16 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
         Log.i(TAG, "onResume()");
     }
 
+    /*
+     * Release the progress spinner.
+     */
+    @Override
+    public void onDestroy() {
+        super.onPause();
+        Log.i(TAG, "onDestroy()");
+        mProgressSpinner = null;
+    }
+
 
     /* startDemo()
      *
@@ -81,19 +90,7 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
                 .addToBackStack(null)
                 .commit();
 
-        // Show the spinner before creating a delayed start
-        // to stop user interacting accidentally.
-        showSpinner();
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mDemoTaskFragment.runAddItemsThread();
-            }
-        }, 500);
-
-
+        mDemoTaskFragment.runAddItemsThread();
     }
 
     /*
@@ -129,12 +126,12 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
      * Create a custom progress dialog that runs while items are being
      * added to the list fragment.
      */
-    public static ProgressDialog createProgressDialog(Context mContext) {
+    public ProgressDialog createProgressDialog(Context mContext) {
         ProgressDialog dialog = new ProgressDialog(mContext);
         try {
             dialog.show();
         } catch (WindowManager.BadTokenException e) {
-
+            e.printStackTrace();
         }
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.progress_bar);
