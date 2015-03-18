@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 /*
- * Created by tim on 1/02/15.
+ * Created by Tim Ashton on 1/02/15.
  *
  */
 public class StartFragment extends Fragment implements View.OnClickListener {
@@ -29,6 +29,21 @@ public class StartFragment extends Fragment implements View.OnClickListener {
      */
     public interface StartDemoListener {
         public void startDemo();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        Log.i(TAG, "onAttach()");
+
+        // Throw exception if StartDemoListener is not implemented
+        // where implementation is declared
+        try {
+            mStartDemoCallback = (StartDemoListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement StartDemoListener");
+        }
     }
 
     /*
@@ -66,21 +81,4 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         super.onPause();
         Log.i(TAG, "onPause()");
     }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        Log.i(TAG, "onAttach()");
-
-        // Throw exception if StartDemoListener is not implemented
-        // where implementation is declared
-        try {
-            mStartDemoCallback = (StartDemoListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement StartDemoListener");
-        }
-    }
-
-
 }

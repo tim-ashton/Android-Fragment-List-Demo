@@ -2,10 +2,10 @@ package com.timashton.fragmentlistdemo;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
 
@@ -36,6 +36,7 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
 
         // If the Fragment is non-null, then it is being retained
         // over a configuration change.
+        // Otherwise a new one is required.
         if (mDemoTaskFragment == null) {
             mDemoTaskFragment = new DemoTaskFragment();
             fm.beginTransaction().add(mDemoTaskFragment, TAG_DEMO_TASK_FRAGMENT).commit();
@@ -55,6 +56,13 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
     }
 
 
+    /* startDemo()
+     *
+     * Implementation of the callback defined in StartFragment.
+     *
+     * Create the two result Fragments and set the slide in/out animations in
+     * the FragmentManager(). Then start the dummy thread on the TaskFragment.
+     */
     @Override
     public void startDemo() {
         Log.i(TAG, "startDemo()");
@@ -62,21 +70,37 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
         ResultListFragment bottomFragment = ResultListFragment.newInstance();
         ResultInfoFragment topFragment = ResultInfoFragment.newInstance();
 
-        FragmentTransaction ft = getFragmentManager().beginTransaction()
+        getFragmentManager().beginTransaction()
                 .setCustomAnimations(
                         R.animator.slide_in_left,
                         R.animator.slide_out_top,
                         R.animator.slide_in_bottom,
-                        R.animator.slide_out_right);
+                        R.animator.slide_out_right)
+                .replace(R.id.container, topFragment, "fragment_top")
+                .add(R.id.container, bottomFragment, "fragment_bottom")
+                .addToBackStack(null)
+                .commit();
 
-        ft.replace(R.id.container, topFragment, "fragment_top");
-        ft.add(R.id.container, bottomFragment, "fragment_bottom");
-        ft.addToBackStack(null);
-        ft.commit();
+        // Show the spinner before creating a delayed start
+        // to stop user interacting accidentally.
+        showSpinner();
 
-        mDemoTaskFragment.runAddItemsThread();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mDemoTaskFragment.runAddItemsThread();
+            }
+        }, 500);
+
+
     }
 
+    /*
+     * showSpinner()
+     *
+     * Show the spinner progress dialog.
+     */
     public void showSpinner() {
         Log.i(TAG, "showSpinner()");
         if (mProgressSpinner == null) {
@@ -87,6 +111,10 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
         }
     }
 
+    /* hideSpinner()
+     *
+     * Hide the spinner progress dialog.
+     */
     public void hideSpinner() {
         Log.i(TAG, "hideSpinner()");
         if (mProgressSpinner == null) {
@@ -96,6 +124,11 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
         }
     }
 
+    /* createProgressDialog(Context mContext)
+     *
+     * Create a custom progress dialog that runs while items are being
+     * added to the list fragment.
+     */
     public static ProgressDialog createProgressDialog(Context mContext) {
         ProgressDialog dialog = new ProgressDialog(mContext);
         try {
@@ -105,15 +138,21 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
         }
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.progress_bar);
-        // dialog.setMessage(Message);
         return dialog;
     }
 
+    /* addItemToListFragment(String text)
+     *
+     * Implementation of the callback declared in the DemoTaskFragment.
+     *
+     * Takes a String parameter passed from the caller. The caller is
+     * a Handler object in DemoTaskFragment.
+     *
+     */
     @Override
     public void addItemToListFragment(String text) {
         Log.i(TAG, "addItemToListFragment(String text): " + text);
 
-        //TODO - Move this to ..
         ResultListFragment resultListFragment = (ResultListFragment) getFragmentManager()
                 .findFragmentByTag("fragment_bottom");
 
@@ -122,11 +161,19 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
         }
     }
 
+    /* taskStarting()
+     *
+     * Implementation of the taskStarting callback declared in the DemoTaskFragment.
+     */
     @Override
     public void taskStarting() {
         showSpinner();
     }
 
+    /* taskStopping()
+     *
+     * Implementation of the taskStopping callback declared in the DemoTaskFragment.
+     */
     @Override
     public void taskStopping() {
         hideSpinner();

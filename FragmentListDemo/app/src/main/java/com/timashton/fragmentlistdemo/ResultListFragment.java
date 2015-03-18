@@ -27,7 +27,8 @@ public class ResultListFragment extends Fragment {
     public ResultListFragment() {
     }
 
-    /*
+    /* newInstance()
+     *
      * Create a new instance of ResultInfoFragment.
      */
     public static ResultListFragment newInstance() {
