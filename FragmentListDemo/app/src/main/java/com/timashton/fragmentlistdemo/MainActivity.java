@@ -12,8 +12,10 @@ import android.view.WindowManager;
 public class MainActivity extends Activity implements StartFragment.StartDemoListener
         , DemoTaskFragment.TaskCallbacks {
 
-    private final static String TAG = MainActivity.class.getName();
+    private static final String TAG = MainActivity.class.getName();
     private static final String TAG_DEMO_TASK_FRAGMENT = "demo_task_fragment";
+    private static final String TAG_RESULT_INFO_FRAGMENT = "result_info_fragment";
+    private static final String TAG_RESULT_LIST_FRAGMENT = "result_list_fragment";
 
     private ProgressDialog mProgressSpinner;
     private DemoTaskFragment mDemoTaskFragment;
@@ -50,7 +52,7 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
 
     @Override
     public void onResume() {
-        super.onPause();
+        super.onResume();
         Log.i(TAG, "onResume()");
     }
 
@@ -59,7 +61,7 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
      */
     @Override
     public void onDestroy() {
-        super.onPause();
+        super.onDestroy();
         Log.i(TAG, "onDestroy()");
         mProgressSpinner = null;
     }
@@ -85,8 +87,8 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
                         R.animator.slide_out_top,
                         R.animator.slide_in_bottom,
                         R.animator.slide_out_right)
-                .replace(R.id.container, topFragment, "fragment_top")
-                .add(R.id.container, bottomFragment, "fragment_bottom")
+                .replace(R.id.container, topFragment, TAG_RESULT_INFO_FRAGMENT)
+                .add(R.id.container, bottomFragment, TAG_RESULT_LIST_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
 
@@ -114,9 +116,7 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
      */
     public void hideSpinner() {
         Log.i(TAG, "hideSpinner()");
-        if (mProgressSpinner == null) {
-            return;
-        } else {
+        if (mProgressSpinner != null) {
             mProgressSpinner.dismiss();
         }
     }

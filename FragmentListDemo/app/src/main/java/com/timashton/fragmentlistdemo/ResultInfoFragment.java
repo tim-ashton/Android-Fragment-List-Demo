@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /*
- * Created by tim on 1/02/15.
+ * Created by Tim Ashton on 1/02/15.
  */
 public class ResultInfoFragment extends Fragment {
 

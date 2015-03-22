@@ -14,7 +14,7 @@ public class DemoTaskFragment extends Fragment {
 
     private static Handler mHandler;
     private static TaskCallbacks mCallbacks;
-    private DemoThread mThread;
+    private static DemoThread mThread;
 
     public DemoTaskFragment() {
     }
@@ -109,7 +109,7 @@ public class DemoTaskFragment extends Fragment {
     }
 
 
-    class DemoThread extends Thread {
+    static class DemoThread extends Thread {
 
         private final String TAG = DemoThread.class.getName();
 
