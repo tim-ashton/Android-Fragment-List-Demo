@@ -151,7 +151,7 @@ public class MainActivity extends Activity implements StartFragment.StartDemoLis
         Log.i(TAG, "addItemToListFragment(String text): " + text);
 
         ResultListFragment resultListFragment = (ResultListFragment) getFragmentManager()
-                .findFragmentByTag("fragment_bottom");
+                .findFragmentByTag(TAG_RESULT_LIST_FRAGMENT);
 
         if (resultListFragment != null) {
             resultListFragment.updateListView(text);

@@ -109,9 +109,18 @@ public class DemoTaskFragment extends Fragment {
     }
 
 
+    /*
+     * Class DemoThread
+     *
+     * Inner thread class to run the dummy thread by overriding the thread.run method.
+     * Make static because there should only ever be one of these.
+     *
+     * Allows parent to pause and restart the thread by calling the appropriate methods.
+     *
+     */
     static class DemoThread extends Thread {
 
-        private final String TAG = DemoThread.class.getName();
+        private static final String TAG = DemoThread.class.getName();
 
         private final Object mPauseLock;
         private boolean mPaused;

@@ -13,13 +13,13 @@
 
 
     <!-- Fragment Result Top -->
-    <string name="fragment_result_top_title">Top Fragment Title</string>
+    <string name="fragment_result_top_title">Fragment Title</string>
     <string name="fragment_result_top_text">This fragment has replaced the original
         fragment which contained the button.</string>
 
 
     <!-- fragment result bottom list -->
-    <string name="fragment_result_bottom_title">Bottom Fragment</string>
+    <string name="fragment_result_bottom_title">List Fragment</string>
     <string name="fragment_result_bottom_text">This fragment has been added during the
     fragment transition. It contains a custom ListView which animates items being added.</string>
 </resources>

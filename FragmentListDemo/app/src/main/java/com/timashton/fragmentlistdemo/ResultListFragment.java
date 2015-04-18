@@ -60,6 +60,8 @@ public class ResultListFragment extends Fragment {
         mFragmentListView.setAdapter(mDemoListAdapter);
 
 
+        // Set the onScrollListener to notify the demo list adapter about any scroll state
+        // changes.
         mFragmentListView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {

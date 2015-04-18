@@ -51,6 +51,8 @@ public class DemoListAdapter extends BaseAdapter {
         DemoListItem item = mList.get(position);
         ViewHolder holder;
 
+        // If it is a new item, create it otherwise use the existing item previously created in
+        // this method.
         if (convertView == null) {
 
             LayoutInflater li = (LayoutInflater) mContext
@@ -67,8 +69,10 @@ public class DemoListAdapter extends BaseAdapter {
 
         holder.mListItemText.setText(item.getItemText());
 
+        // Get ready to animate the item(s)
         Animation animation;
 
+        // This item is new or being seen for the first time.
         if (item.isNewItem() && !mIsScrollingUp && !mIsScrollingDown) {
             animation = AnimationUtils.loadAnimation(mContext, R.anim.flip_down);
             item.setIsNewItem(false);
@@ -76,6 +80,7 @@ public class DemoListAdapter extends BaseAdapter {
             convertView.startAnimation(animation);
         }
 
+        // This item is not new. Apply the scrolling animation. (just using flip_down for demo)
         if (mIsScrollingUp || mIsScrollingDown) {
             animation = AnimationUtils.loadAnimation(mContext, R.anim.flip_down);
 
@@ -89,10 +94,19 @@ public class DemoListAdapter extends BaseAdapter {
 
     }
 
+    /* public void setScrollingUp(boolean scrollingUp)
+     *
+     * Allows the caller to tell this list adapter that the list is being scrolled up.
+     */
     public void setScrollingUp(boolean scrollingUp){
         mIsScrollingUp = scrollingUp;
     }
 
+    /*
+     * public void setScrollingDown(boolean scrollingDown)
+     *
+     * Allows the caller to tell this list adapter that the list is being scrolled down.
+     */
     public void setScrollingDown(boolean scrollingDown){
         mIsScrollingDown = scrollingDown;
     }
